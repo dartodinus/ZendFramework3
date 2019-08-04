@@ -1,0 +1,133 @@
+<!-- start sidebar menu -->
+<div class="sidebar-container">
+	<div class="sidemenu-container navbar-collapse collapse fixed-menu">
+		<div id="remove-scroll">
+			<ul class="sidemenu  page-header-fixed" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+				<li class="sidebar-toggler-wrapper hide">
+					<div class="sidebar-toggler">
+						<span></span>
+					</div>
+				</li>
+				<li class="sidebar-user-panel">
+					<div class="user-panel">
+						<img src="<?=$this->basePath('public');?>/assets/img/profile.png" alt="User Image" />
+					</div>
+				</li>
+				
+				<!-- BEGIN PARENT MENU -->
+                <?PHP foreach($sMenu as $menu):
+				if($menu['IsChild'] == 'true'):
+					$navToggle  = 'nav-toggle';
+					$url     	= 'javascript:;';
+					$ajaxify    = '';
+					$arrow		= '<span class="arrow"></span>';
+				else:
+					$navToggle  = '';
+					$url     	= $menu['Url'];
+					$ajaxify    = '';
+					$arrow		= '';
+				endif;
+				
+				if($menu['Code'] == $this->sCode):
+					$activeMenu  = 'start active open';
+				else:
+					$activeMenu  = '';
+				endif;
+                ?>
+               
+					<?PHP if($menu['Name'] == 'Home'):?>
+						<li class="nav-item <?=$activeMenu?>">
+							<a href="<?=$url?>" class="nav-link "> 
+								<i class="<?=$menu['Icon']?>"></i> 
+								<span class="title"><?=$menu['Name']?></span>
+							</a>
+						</li>
+				
+					<?PHP else:?>
+						<li class="nav-item <?=$activeMenu?>">
+							<?PHP if($menu['IsChild'] == 'true'):?>
+								<a href="<?=$url?>" class="nav-link nav-toggle">
+									<i class="<?=$menu['Icon']?>"></i>
+									<span class="title"><?=$menu['Name']?></span>
+									<?=$arrow?>
+								</a>
+								<ul class="sub-menu">
+
+									<!-- BEGIN SUB MENU -->
+									<?PHP foreach($menu['Child'] as $submenu):
+									if($submenu['IsChild'] == 'true'):
+										$navToggle  = 'nav-toggle';
+										$url     	= 'javascript:;';
+										$ajaxify    = '';
+										$arrow		= '<span class="arrow "></span>';
+									else:
+										$navToggle  = '';
+										$url     	= $menu['Url'];
+										$ajaxify    = '';
+										$arrow		= '';
+									endif;
+								   
+								   	if($submenu['Code'] == $this->sCode):
+										$activeMenu  = 'start active open';
+									else:
+										$activeMenu  = '';
+									endif;
+									?>
+
+									<li class="nav-item <?=$activeMenu?>">
+										<?PHP if($submenu['IsChild'] == 'true'):?>
+											<a href="<?=$url?>" class="nav-link nav-toggle">
+												<i class="<?=$submenu['Icon']?>"></i>
+												<span class="title"><?=$submenu['Name']?></span>
+												<?=$arrow?>
+											</a>
+											<ul class="sub-menu">
+												<!-- BEGIN SUB-SUB MENU -->
+												<?PHP foreach($submenu['Child'] as $sub_submenu):
+												$navToggle  = '';
+												$url     	= $sub_submenu['Url'];
+												$ajaxify    = '';
+												$arrow		= '';
+												?>
+												<li class="nav-item">
+													<a href="<?=$url?>" class="nav-link">
+														<i class="<?=$sub_submenu['Icon']?>"></i>
+														<span class="title"><?=$sub_submenu['Name']?></span>
+														<?=$arrow?>
+													</a>
+												</li>
+												<?PHP endforeach?>
+												<!-- END SUB-SUB MENU -->
+
+											</ul>
+										<?PHP else:?>
+											<a href="<?=$url?>" class="nav-link">
+												<i class="<?=$submenu['Icon']?>"></i>
+												<span class="title"><?=$submenu['Name']?></span>
+												<?=$arrow?>
+											</a>
+										<?PHP endif;?>
+										
+									</li>
+									<?PHP endforeach?>
+									<!-- END SUB MENU -->
+
+								</ul>
+							<?PHP else:?>
+								<a href="<?=$url?>" class="nav-link">
+									<i class="<?=$menu['Icon']?>"></i>
+									<span class="title"><?=$menu['Name']?></span>
+									<?=$arrow?>
+								</a>
+							<?PHP endif;?>
+							
+						</li>
+					<?PHP endif;?>
+					
+				<?PHP endforeach?>
+				<!-- END PARENT MENU -->
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- end sidebar menu --> 

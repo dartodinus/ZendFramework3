@@ -1,0 +1,99 @@
+<?php
+namespace Auth\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
+use Auth\Model\User;
+use Auth\Model\UserTable;
+use Auth\Form\LoginForm;
+use Auth\Form\Filter\LoginFilter;
+use Auth\Service\MyAuthStorage;
+
+class AuthController extends AbstractActionController
+{
+	protected $userTable;	
+    protected $storage;
+    protected $authservice;
+     
+    public function __construct($container)
+    {
+		$this->userTable = $container->get(\Auth\Model\UserTable::class);
+		$this->storage = $container->get(\Auth\Service\MyAuthStorage::class);
+		$this->authService = $container->get('AuthService');
+    }
+	
+	function getAuthService() 
+	{
+		return $this->authService;
+	}
+	
+	function getSessionStorage()
+    {
+	    return $this->storage;
+    }
+	
+	public function loginAction()
+    {
+        $redirect = 'auth';
+		$json["check_valid"] = 'valid';
+        
+		$form = new LoginForm();
+		$request = $this->getRequest();
+        
+        if ($request->isPost()){
+			$form->setInputFilter(new LoginFilter());			
+			$form->setData($request->getPost());
+            
+			if ($form->isValid()) {
+                $this->getAuthService()
+						->getAdapter()
+					    ->setIdentity($request->getPost('username'))
+					    ->setCredential($request->getPost('password'));
+                                     
+                $result = $this->getAuthService()->authenticate();
+		
+				$messages = $result->getMessages();
+                if ($result->isValid()) {
+					if ($request->getPost('rememberme') == 1) {
+						$this->getSessionStorage()->setRememberMe(1);
+                        $this->getAuthService()->setStorage($this->getSessionStorage());
+                    }
+					$username = $request->getPost('username');
+					$userinfo = [
+						'username' => $username,		
+					];
+					$userinfo = (object) $userinfo;
+					$this->getAuthService()->getStorage()->write($userinfo);
+                    
+                    $redirect = 'main';
+                    $json["message_info"] = $redirect;
+					echo json_encode($json);
+                    //return $this->redirect()->toRoute('main');
+					//echo $this->authService->hasIdentity();
+                    //exit();
+                }else{
+                    $json["check_valid"] = 'invalid';
+				    $json["message_info"] = 'Username or password failed';
+					echo json_encode($json);
+					exit();
+                }
+            }
+        }
+        
+        
+        $view   = new ViewModel([
+			'form' => $form
+		]);
+        
+        $view->setTerminal(true);
+		return $view;
+    }
+	
+	public function logoutAction()
+    {
+        //$this->getSessionStorage()->forgetMe();
+        $this->getAuthService()->clearIdentity();         
+        return $this->redirect()->toRoute('login');
+    }
+}

@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.dataTables_scroll {
+    margin-bottom: 10px
+}
+
+.dataTables_scrollHead {
+    border-bottom: 2px solid #e7ecf1 !important
+}
+
+.dataTables_scrollHead thead th {
+    border-bottom: 0 !important
+}
+
+.dataTables_scrollBody {
+    border-bottom: 1px solid #e7ecf1 !important
+}
+
+.table-both-scroll .dataTables_scrollBody {
+    border-bottom: 0 !important
+}
+
+.dataTables_wrapper .dataTables_processing {
+    width: 200px;
+    display: inline-block;
+    padding: 7px;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: 10px;
+    text-align: center;
+    color: #3f444a;
+    border: 1px solid #e7ecf1;
+    background: #eef1f5;
+    vertical-align: middle;
+    -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 1px 8px rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .1)
+}
+

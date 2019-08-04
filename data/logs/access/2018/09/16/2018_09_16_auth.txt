@@ -1,0 +1,1 @@
+2018-09-16T10:29:38+02:00 INFO (6): admin -- 127.0.0.1 -- Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36 -- 65342 -- POST -- /zf3-web/auth -- d6937240747be027fe699f8e4f0dc8d024f79914827f00c7a150c25a3fa3b928afLwq+fpBUKF8vhF9a0WQkcHdp5PAoRtt+XYySRIpug= -- login -- success
